@@ -21,20 +21,20 @@ Environmental installation
 Install on Linux system
 Linux &amp; Mac installation is very simple, just download the source package and decompress and compile it on the terminal. This article uses version 0.1 for installation:
 
-curl -R -O http://www.....
-tar zxf ....
-cd pelagia/src
-make linux
-make install
-
+    crcurl -R -O http://www.....
+    tar zxf .... 
+    cd pelagia/src
+    make linux
+    make install
+    
 Install on Mac OS X
 
-curl -R -O http://www.....
-tar zxf ....
-cd pelagia/src
-make macosx
-make install
-
+    curl -R -O http://www.....
+    tar zxf ....
+    cd pelagia/src
+    make macosx
+    make install
+    
 Install on window system
 After decompression, enter the msvcs directory and open pelagia.sln for compilation.
 
