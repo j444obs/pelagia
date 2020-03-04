@@ -3,7 +3,7 @@
 ## introduce
 
 Pelagia is an automatic parallelization tool developed by surparallel open source based on the concept of sequential virtual machine.
-Pelagia is developed by ANSI C, abides by agpl protocol, and supports multiple operating systems and languages.
+Pelagia is developed by ANSI C, abides by AGPL protocol, and supports multiple operating systems and languages.
 It supports automatic parallelization, transparent thread calling, embedded key value database, embedded multi language running environment, and provides APIs and documents for each language.
 The set concept in Boolean algebra is used to describe the operation of data. Including key, value, ordered set, index set and other types.
 
@@ -29,16 +29,16 @@ You can find the relevant sample code in psimple.c, profesa.c under the source c
 
 Linux&Mac installation is very simple, just download the source package and decompress and compile it on the terminal. This article uses version 0.1 for installation:
 
-    crcurl -R -O http://www.....
-    tar zxf .... 
+    crcurl -R -O http://www...
+    tar zxf ...
     cd pelagia/src
     make linux
     make install
     
 ##  Install on Mac OS X
 
-    curl -R -O http://www.....
-    tar zxf ....
+    curl -R -O http://www...
+    tar zxf ...
     cd pelagia/src
     make macosx
     make install
