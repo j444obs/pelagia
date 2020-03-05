@@ -25,17 +25,16 @@
 #include "ptimesys.h"
 
 static int TaskRouting(char* value, short valueLen) {
-	void* pEvent;
-	memcpy(&pEvent, value, valueLen);
+	void* pEvent = (void*)value;
 
-	char table[256] = { 0 };
-	sprintf(table, "table");
+	char table[19] = { 0 };
+	strcpy(table, "table");
 
-	char key[256] = { 0 };
-	sprintf(key, "key");
+	char key[10] = { 0 };
+	strcpy(key, "key");
 
-	char v[256] = { 0 };
-	sprintf(v, "hello world!");
+	char v[100] = { 0 };
+	strcpy(v, "hello world!");
 
 	//Set data to data
 	plg_JobSet(table, strlen(table), key, strlen(key), v, strlen(v) + 1);
@@ -62,14 +61,14 @@ void plg_simple() {
 	void* pEvent = plg_EventCreateHandle();
 	
 	//Add a task to the system, including the name of the task and the callback function.
-	char order[256] = { 0 };
-	sprintf(order, "order");
+	char order[10] = { 0 };
+	strcpy(order, "order");
 	plg_MngAddOrder(pManage, order, strlen(order), plg_JobCreateFunPtr(TaskRouting));
 
 	//Add the table to be written by the task. The read table can be read without adding
 	//Each table is an independent key-value database
-	char table[256] = { 0 };
-	sprintf(table, "table");
+	char table[10] = { 0 };
+	strcpy(table, "table");
 	plg_MngAddTable(pManage, order, strlen(order), table, strlen(table));
 
 	//Create resources used by threads and assign tasks to threads
