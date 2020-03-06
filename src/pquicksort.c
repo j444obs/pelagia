@@ -71,7 +71,7 @@ int plg_SortDefaultIntCmp(int* v1, int* v2) {
 	}
 }
 
-void ListQuicksort(struct listNode **head, struct listNode **tail, CMPFUN cfun)
+static void ListQuicksort(struct listNode **head, struct listNode **tail, CMPFUN cfun)
 {
 	if (*head == NULL) {
 		return;
@@ -178,13 +178,13 @@ void plg_SortList(struct list *list, CMPFUN cfun) {
 }
 
 //arrary quicksort
-void ArrarySwap(char* array, int length, int left, int right, void* temp) {
+static void ArrarySwap(char* array, int length, int left, int right, void* temp) {
 	memcpy(temp, array + length * left, length);
 	memcpy(array + length * left, array + length * right, length);
 	memcpy(array + length * right, temp, length);
 }
 
-int ArraryPartition(char* array, int length, int left, int right, int pivot_index, void* pivot_value, void* temp, CMPFUN cfun)
+static int ArraryPartition(char* array, int length, int left, int right, int pivot_index, void* pivot_value, void* temp, CMPFUN cfun)
 {
 	memcpy(pivot_value, array + pivot_index * length, length);
 	int store_index = left;

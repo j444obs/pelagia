@@ -673,7 +673,7 @@ static void* plg_JobThreadRouting(void* pvJobHandle) {
 			break;
 		} else if (pJobHandle->exitThread == 2) {
 			elog(log_details, "ThreadType:%i.plg_JobThreadRouting.exitThread:%i", pJobHandle->threadType, pJobHandle->exitThread);
-			mutex_ThreadDestroy();
+			plg_MutexThreadDestroy();
 			plg_JobDestoryHandle(pJobHandle);
 			plg_LocksDestroy();
 			pthread_detach(pthread_self());
@@ -681,7 +681,7 @@ static void* plg_JobThreadRouting(void* pvJobHandle) {
 		}
 	} while (1);
 
-	mutex_ThreadDestroy();
+	plg_MutexThreadDestroy();
 	pthread_detach(pthread_self());
 
 	return 0;

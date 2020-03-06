@@ -49,7 +49,12 @@ int plg_EventWait(void* pEventHandle) {
 
 void* plg_EventRecvAlloc(void* pEventHandle, unsigned int* valueLen) {
 	sds sdsvalue = plg_eqPop(pEventHandle);
-	*valueLen = plg_sdsLen(sdsvalue);
+	if (sdsvalue) {
+		*valueLen = plg_sdsLen(sdsvalue);
+		return sdsvalue;
+	} else {
+		*valueLen = 0;
+	}
 	return sdsvalue;
 }
 

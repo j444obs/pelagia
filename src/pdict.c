@@ -181,17 +181,17 @@ uint8_t *plg_dictGetHashFunctionSeed(void) {
 }
 
 /* The default hashing function uses SipHash implementation
- * in siphash.c. */
+ * in plg_siphash.c. */
 
-unsigned long long siphash(const uint8_t *in, const unsigned int inlen, const uint8_t *k);
-unsigned long long siphash_nocase(const uint8_t *in, const unsigned int inlen, const uint8_t *k);
+unsigned long long plg_siphash(const uint8_t *in, const unsigned int inlen, const uint8_t *k);
+unsigned long long plg_siphash_nocase(const uint8_t *in, const unsigned int inlen, const uint8_t *k);
 
 unsigned long long plg_dictGenHashFunction(const void *key, int len) {
-    return siphash(key,len,dict_hash_function_seed);
+    return plg_siphash(key,len,dict_hash_function_seed);
 }
 
 unsigned long long plg_dictGenCaseHashFunction(const unsigned char *buf, int len) {
-    return siphash_nocase(buf,len,dict_hash_function_seed);
+    return plg_siphash_nocase(buf,len,dict_hash_function_seed);
 }
 
 /* ----------------------------- API implementation ------------------------- */
@@ -216,7 +216,7 @@ dict *plg_dictCreate(dictType *type, void *privDataPtr, short pool)
 }
 
 /* Initialize the hash table */
-int _dictInit(dict *d, dictType *type,
+static int _dictInit(dict *d, dictType *type,
         void *privDataPtr,
 		short pool)
 {
@@ -519,7 +519,7 @@ void plg_dictFreeUnlinkedEntry(dict *d, dictEntry *he) {
 }
 
 /* Destroy an entire dictionary */
-int _dictClear(dict *d, dictht *ht, void(callback)(void *)) {
+static int _dictClear(dict *d, dictht *ht, void(callback)(void *)) {
     unsigned int i;
 
     /* Free all the elements */
@@ -588,7 +588,7 @@ void *plg_dictFetchValue(dict *d, const void *key) {
  * the fingerprint again when the iterator is released.
  * If the two fingerprints are different it means that the user of the iterator
  * performed forbidden operations against the dictionary while iterating. */
-long long dictFingerprint(dict *d) {
+static long long dictFingerprint(dict *d) {
     long long integers[6], hash = 0;
     int j;
 

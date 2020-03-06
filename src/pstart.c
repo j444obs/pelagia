@@ -22,7 +22,7 @@
 #include "pjson.h"
 #include "pelagia.h"
 
-void EnumTableJson(pJSON * root, void* pManage, char* order)
+static void EnumTableJson(pJSON * root, void* pManage, char* order)
 {
 	plg_MngAddTable(pManage, order, strlen(order), root->string, strlen(root->string));
 
@@ -42,7 +42,7 @@ void EnumTableJson(pJSON * root, void* pManage, char* order)
 	}
 }
 
-void EnumOrderJson(pJSON * root, void* pManage)
+static void EnumOrderJson(pJSON * root, void* pManage)
 {
 	char* orderType = 0;
 	char* file = 0;
@@ -93,7 +93,7 @@ void EnumOrderJson(pJSON * root, void* pManage)
 	}
 }
 
-void EnumJson(pJSON * root, void* pManage)
+static void EnumJson(pJSON * root, void* pManage)
 {
 	for (int i = 0; i < pJson_GetArraySize(root); i++)
 	{

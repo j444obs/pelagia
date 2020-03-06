@@ -160,6 +160,7 @@ typedef struct _ManageDestroy
 	AfterDestroyFun fun;
 	void* ptr;
 	char type;
+	void* pEvent;
 }*PManageDestroy, ManageDestroy;
 
 char* plg_MngGetDBPath(void* pvManage) {
@@ -794,7 +795,7 @@ static int OrderDestroyCount(char* value, short valueLen) {
 	return 1;
 }
 
-static void manage_InternalDestoryHandle(void* pvManage, AfterDestroyFun fun, void* ptr) {
+static void manage_InternalDestoryHandle(void* pvManage, AfterDestroyFun fun, void* ptr, void* pEvent) {
 
 	PManage pManage = pvManage;
 	plg_MutexDestroyHandle(pManage->mutexHandle);
@@ -819,6 +820,10 @@ static void manage_InternalDestoryHandle(void* pvManage, AfterDestroyFun fun, vo
 	if (fun) {
 		fun(ptr);
 	}
+
+	if (pEvent) {
+		plg_EventSend(pEvent, NULL, 0);
+	}
 }
 
 /*
@@ -828,7 +833,7 @@ static void CompleteDestroyFile(void* value) {
 
 	PManageDestroy pManageDestroy = (PManageDestroy)value;
 	pManageDestroy->pManage->runStatus = 0;
-	manage_InternalDestoryHandle(pManageDestroy->pManage, pManageDestroy->fun, pManageDestroy->ptr);
+	manage_InternalDestoryHandle(pManageDestroy->pManage, pManageDestroy->fun, pManageDestroy->ptr, pManageDestroy->pEvent);
 	free(value);
 	plg_JobSExitThread(2);
 }
@@ -941,17 +946,24 @@ void plg_MngDestoryHandle(void* pvManage, AfterDestroyFun fun, void* ptr) {
 	if (pManage->runStatus == 0) {
 		plg_JobDestoryHandle(pManage->pJobHandle);
 		plg_LocksDestroy();
-		manage_InternalDestoryHandle(pManage, fun, ptr);
+		manage_InternalDestoryHandle(pManage, fun, ptr, 0);
 	} else {
+		void* pEvent = plg_EventCreateHandle();
+
 		MutexLock(pManage->mutexHandle, pManage->objName);
 		PManageDestroy pManageDestroy = malloc(sizeof(ManageDestroy));
 		pManageDestroy->fun = fun;
 		pManageDestroy->ptr = ptr;
 		pManageDestroy->pManage = pManage;
 		pManageDestroy->type = 3;
+		pManageDestroy->pEvent = pEvent;
 		manage_DestroyJob(pManage, CallBackDestroyFile, pManageDestroy);
 		MutexUnlock(pManage->mutexHandle, pManage->objName);
+
+		plg_EventWait(pEvent);
+		plg_EventDestroyHandle(pEvent);
 	}
+
 }
 
 char plg_MngCheckUsingThread() {

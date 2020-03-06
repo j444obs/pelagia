@@ -25,7 +25,7 @@
 * The return value of this function is between 1 and ZSKIPLIST_MAXLEVEL
 * (both inclusive), with a powerlaw-alike distribution where higher
 * levels are less likely to be returned. */
-int random_level(void) {
+int plg_RandomLevel(void) {
 	int level = 1;
 	const double p = 0.25;
 	while ((rand() & 0xffff) < 0xffff * p) {

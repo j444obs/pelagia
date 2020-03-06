@@ -163,12 +163,11 @@ static dictType tableDictType = {
 	TableFreeCallback
 };
 
-long long ll = 0x18A9D;
+SDS_TYPE
 static void TableHeadFreeCallback(void* privdata, void *val) {
 
+	SDS_CHECK(privdata, val);
 	PCacheHandle pCacheHandle = privdata;
-	long long ss = ll;
-	ss = ss * 0;
 	plg_MemListPush(pCacheHandle->memoryListTable, listNodeValue((listNode*)val));
 }
 
@@ -508,7 +507,7 @@ void plg_CacheDestroyHandle(void* pvCacheHandle) {
 首先在本地查找,
 然后去disk查找,
 */
-void* cahce_GetTableHandle(void* pvCacheHandle, sds sdsTable) {
+static void* cahce_GetTableHandle(void* pvCacheHandle, sds sdsTable) {
 
 	//find in local
 	PCacheHandle pCacheHandle = pvCacheHandle;
@@ -1188,7 +1187,7 @@ void plg_CacheSetPercent(void* pvCacheHandle, unsigned int percent){
 /*
 整理页缓存,必须在清空所有事务和脏页后才能根据一定条件执行
 */
-void cache_Arrange(void* pvCacheHandle) {
+static void cache_Arrange(void* pvCacheHandle) {
 
 	PCacheHandle pCacheHandle = pvCacheHandle;
 	elog(log_fun, "cache_Arrange %U", pCacheHandle);

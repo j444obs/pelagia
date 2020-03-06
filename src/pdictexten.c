@@ -83,7 +83,7 @@ static dictType type = {
 	FreeCallback
 };
 
-int KeyCmpFun(void* v1, void* v2) {
+static int KeyCmpFun(void* v1, void* v2) {
 
 	listNode* node1 = (listNode*)v1;
 	listNode* node2 = (listNode*)v2;
@@ -115,12 +115,12 @@ int ValueCmpFun(void* v1, void* v2) {
 	return memcmp(pDictExtenHead1->key + pDictExtenHead1->keyLen, pDictExtenHead2->key + pDictExtenHead1->keyLen, pDictExtenHead1->valueLen);
 }
 
-void DictExtenSortWithKey(void* vpDictExten) {
+static void DictExtenSortWithKey(void* vpDictExten) {
 	PDictExten pDictExten = vpDictExten;
 	plg_SortList(pDictExten->pList, KeyCmpFun);
 }
 
-void DictExtenSortWithValue(void* vpDictExten) {
+static void DictExtenSortWithValue(void* vpDictExten) {
 	PDictExten pDictExten = vpDictExten;
 	plg_SortList(pDictExten->pList, ValueCmpFun);
 }

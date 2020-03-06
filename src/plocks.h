@@ -33,7 +33,7 @@ void* plg_MutexCreateHandle(unsigned int rank);
 void plg_MutexDestroyHandle(void* pSafeMutex);
 int plg_MutexLock(void* pSafeMutex);
 int plg_MutexUnlock(void* pSafeMutex);
-void mutex_ThreadDestroy();
+void plg_MutexThreadDestroy();
 
 #define MutexLock(lockObj, lockName) do {\
 if(0==plg_LocksEntry(lockObj)){\

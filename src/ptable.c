@@ -90,7 +90,7 @@ typedef struct _TableIterator
 为了删除,返回被删除点的前一点.
 find table name in skip list
 */
-int TableTailFindCmpFun(void* key1, unsigned int key1Len, void* key2, unsigned int Key2Len) {
+static int TableTailFindCmpFun(void* key1, unsigned int key1Len, void* key2, unsigned int Key2Len) {
 	
 	//cmp keyStr
 	NOTUSED(key1);
@@ -207,7 +207,7 @@ void* plg_TableNextIterator(void* pvTableIterator) {
 	return pDiskTableKey;
 }
 
-void* table_DupIterator(void* pvTableIterator) {
+static void* table_DupIterator(void* pvTableIterator) {
 	PTableIterator pTableIterator = pvTableIterator;
 	PTableIterator pRetTableIterator = malloc(sizeof(TableIterator));
 	*pRetTableIterator = *pTableIterator;
@@ -699,7 +699,7 @@ static unsigned int table_InsideNew(void* pvTableHandle, char* key, unsigned sho
 	ARRAY_SKIPLISTPOINT* skipListPoint = vskipListPoint;
 	void* tablePage;
 	PTableHandle pTableHandle = pvTableHandle;
-	unsigned short level = random_level();
+	unsigned short level = plg_RandomLevel();
 	unsigned short kvLength = sizeof(DiskTableKey) + keySize + length;
 	unsigned short requireLength = sizeof(DiskTableElement) * level + kvLength;
 
@@ -1996,7 +1996,7 @@ unsigned int plg_TableDel(void* pvTableHandle, sds sdsKey) {
 	return 1;
 }
 
-unsigned int table_DelWithLen(void* pvTableHandle, char* key, unsigned short keyLen) {
+static unsigned int table_DelWithLen(void* pvTableHandle, char* key, unsigned short keyLen) {
 
 	//find skip list point
 	PTableHandle pTableHandle = pvTableHandle;
@@ -2090,7 +2090,7 @@ int plg_TableFind(void* pvTableHandle, sds sdsKey, void* pDictExten, short isSet
 	return 1;
 }
 
-int table_InsideFind(void* pvTableHandle, char* key, unsigned short keyLen, void* pDictExten, short isSet) {
+static int table_InsideFind(void* pvTableHandle, char* key, unsigned short keyLen, void* pDictExten, short isSet) {
 
 	//find skip list point
 	PTableHandle pTableHandle = pvTableHandle;
@@ -2436,7 +2436,7 @@ void plg_TableRang(void* pvTableHandle, sds sdsBeginKey, sds sdsEndKey, void* pD
 	plg_TableReleaseIterator(iter);
 }
 
-unsigned int table_RangCount(void* pvTableHandle, sds sdsBeginKey, sds sdsEndKey) {
+static unsigned int table_RangCount(void* pvTableHandle, sds sdsBeginKey, sds sdsEndKey) {
 
 	PTableHandle pTableHandle = pvTableHandle;
 	void* iter = plg_TableGetIteratorWithKey(pTableHandle, sdsBeginKey);
@@ -2454,7 +2454,7 @@ unsigned int table_RangCount(void* pvTableHandle, sds sdsBeginKey, sds sdsEndKey
 	return count;
 }
 
-void table_Members(void* pvTableHandle, void* pDictExten) {
+static void table_Members(void* pvTableHandle, void* pDictExten) {
 
 	PTableHandle pTableHandle = pvTableHandle;
 	void* iter = plg_TableGetIteratorWithKey(pTableHandle, NULL);
@@ -2556,7 +2556,7 @@ void plg_TableMultiFind(void* pvTableHandle, void* pKeyDictExten, void* pValueDi
 
 }
 
-void table_MultiDel(void* pvTableHandle, void* pDictExten) {
+static void table_MultiDel(void* pvTableHandle, void* pDictExten) {
 
 	PTableHandle pTableHandle = pvTableHandle;
 	void* dictIter = plg_DictExtenGetIterator(pDictExten);
@@ -3128,7 +3128,7 @@ void plg_TableSetDel(void* pvTableHandle, sds sdsKey, void* pValueDictExten) {
 	pTableHandle->pTableInFile = pTableInFile;	
 }
 
-void table_InsideSetDel(void* pvTableHandle, sds sdsKey, sds sdsValue) {
+static void table_InsideSetDel(void* pvTableHandle, sds sdsKey, sds sdsValue) {
 
 	PTableHandle pTableHandle = pvTableHandle;
 	TableInFile tableInFile;

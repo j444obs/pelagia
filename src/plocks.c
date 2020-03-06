@@ -119,7 +119,7 @@ void* plg_MutexCreateHandle(unsigned int rank) {
 	return pSafeMutex;
 }
 
-void mutex_ThreadDestroy() {
+void plg_MutexThreadDestroy() {
 	list* ptr = pthread_getspecific(exclusionZone);
 	if (ptr != 0) {
 		plg_listRelease(ptr);

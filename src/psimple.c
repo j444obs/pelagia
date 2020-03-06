@@ -27,7 +27,7 @@
 static int TaskRouting(char* value, short valueLen) {
 	void* pEvent = (void*)value;
 
-	char table[19] = { 0 };
+	char table[10] = { 0 };
 	strcpy(table, "table");
 
 	char key[10] = { 0 };

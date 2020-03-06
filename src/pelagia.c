@@ -36,10 +36,10 @@
 static void* pManage = 0;
 
 #define VERSION_MAJOR	"0"
-#define VERSION_MINOR	"1"
+#define VERSION_MINOR	"2"
 
 #define VERSION_NUMMAJOR	0
-#define VERSION_NUMMINOR	1
+#define VERSION_NUMMINOR	2
 
 unsigned int plg_NVersion() {
 	return VERSION_NUMMINOR;
@@ -249,7 +249,7 @@ static int IssueCommand(int argc, char **argv) {
 	return 1;
 }
 
-sds ReadArgFromStdin(void) {
+static sds ReadArgFromStdin(void) {
 	char buf[1024];
 	sds arg = plg_sdsEmpty();
 
@@ -280,7 +280,7 @@ int plg_Interactive(FUNIssueCommand pIssueCommand) {
 }
 
 
-int checkArg(char* argv) {
+static int checkArg(char* argv) {
 	if (strcmp(argv, "--") == 0 || strcmp(argv, "-") == 0)
 		return 0;
 	else
